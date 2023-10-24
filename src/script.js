@@ -1,4 +1,4 @@
-import { jsonToTree } from "./worker.mjs"
+import { jsonToTree } from "./worker.js"
 
 jQuery(() => {    
   $(document).on('click' ,'li.test', function(e) {
