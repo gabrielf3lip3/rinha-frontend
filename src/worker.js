@@ -3,28 +3,43 @@ export function jsonToTree(arr) {
 
   let mom = tree;
   let index = 0;
+  let createUl = -1
 
   for(let i = 0; i < arr.length; i++) {
-    if(i == 0 || i == arr.length - 1)
-      continue
+    //if(i == 0 || i == arr.length - 1)
+      //continue
 
-    const line = arr[i]
+    let line = arr[i]
 
     if(line[line.length - 1] === '{' ||
-    line[line.length - 1] === '[') {
+       line[line.length - 1] === '[') {
  
-      let ne = document.createElement('ul');
-      $(ne).css("list-style-type", "none")
+      createUl = i+1
+    }
 
-      mom.append(ne)
-      mom = ne
+    if(i === createUl) {
+      let ul = document.createElement('ul');
+      $(ul).css("list-style-type", "none")
+
+      $(mom).append(ul)
+      mom = ul
     }
 
     //Create the li
 
-    var el = document.createElement('li')
-    el.appendChild(document.createTextNode(`${line}`))
-    mom.append(el);
+    var li = document.createElement('li')
+
+    const keyValue = line.split(":")
+    //console.log(`${keyValue}: ${keyValue.length}`)
+
+    if(keyValue.length == 2) {
+      $(li).html(`<span class="key">${keyValue[0]}: </span><span class="value">${keyValue[1]}</span>`)
+    }
+    else {
+      $(li).html(`<span class="single">${line}</span>`)
+    }
+
+    $(mom).append(li);
   
     //end
 
@@ -33,7 +48,9 @@ export function jsonToTree(arr) {
       line[line.length - 2] === '}' ||
       line[line.length - 2] === ']' ) {
 
-      mom = mom.parentNode;
+      $(li).remove()
+      mom = mom.parentNode
+      $(mom).append(li)
     }
   }
 }
