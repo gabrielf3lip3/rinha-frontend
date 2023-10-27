@@ -12,16 +12,21 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div class="center">
+    <div class="center c_text c_up" id="fileInput">
       <h1>JSON Tree Viewer</h1>
       <p>Simple JSON Viewer that runs completely on-client. No data exchange</p>
       <label for="input" class="btn">Load JSON</label>
       <input type="file" id="input" style="display: none;"/>
+      <p style="display: none;" class="warn" id="error">Invalid file. Please enter a valid JSON file.</p>
     </div>
 
-    <div id="content">
-      <ul id="tree">
-      </ul>
+    <div id="content" style="display: none" class="center">
+      <h1 style="display: none" id="name" class="c_text">Example</h1>
+
+      <div class="center">
+        <ul id="tree">
+        </ul>
+      </div>
     </div>
 
     <script type="module" src="script.js"></script>
