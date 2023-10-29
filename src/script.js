@@ -17,7 +17,8 @@ jQuery(() => {
     reader.onload = (e) => {
 
       try {
-        const json = JSON.stringify(JSON.parse(e.target.  result), null, 2)
+        const obj = JSON.parse(e.target.result)
+        const json = JSON.stringify(obj, null, 2)
         const lines = json.split("\n")
       
         const worker = new Worker('./worker.js')

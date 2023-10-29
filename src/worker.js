@@ -15,16 +15,13 @@ self.addEventListener('message', (e) => {
 function jsonToTree(arr) {
   let tree = ""
 
-  for(let i = 0; i < arr.length; i++) {
-    //if(i == 0 || i == arr.length - 1)
-      //continue
+  arr.forEach(line => {
+    if(line[line.length - 1] === '}' ||
+      line[line.length - 1] === ']' ||
+      line[line.length - 2] === '}' ||
+      line[line.length - 2] === ']' ) {
 
-    const line = arr[i]
-
-    if(line[line.length - 1] === '{' ||
-       line[line.length - 1] === '[') {
- 
-      tree += '<ul>'
+      tree += '</ul>'
     }
 
     const keyValue = line.split(":")
@@ -35,14 +32,12 @@ function jsonToTree(arr) {
       tree += `<li><span class="single">${line}</span></li>`
     }
 
-    if(line[line.length - 1] === '}' ||
-      line[line.length - 1] === ']' ||
-      line[line.length - 2] === '}' ||
-      line[line.length - 2] === ']' ) {
-
-      tree += '</ul>'
+    if(line[line.length - 1] === '{' ||
+       line[line.length - 1] === '[') {
+ 
+      tree += '<ul>'
     }
-  }
+  });
 
   return tree
 }
