@@ -1,6 +1,14 @@
-import { jsonToTree } from "./worker.js"
+jQuery(() => {
+  if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./worker.js')
+    .then(registration => {
+      console.log("Service registrated")
+    })
+    .catch(error => {
+      console.error("Service Worker failed")
+    })
+  }
 
-jQuery(() => {    
   $('#input').on("change", (e) => {
     const file = e.target.files[0]
     const reader = new FileReader()
@@ -12,8 +20,20 @@ jQuery(() => {
         const json = JSON.stringify(JSON.parse(e.target.  result), null, 2)
         const lines = json.split("\n")
       
-        jsonToTree(lines)
-        hideElements(name)
+        const worker = new Worker('./worker.js')
+        worker.postMessage({
+          action: 'jsonToTree',
+          data: lines
+        });
+
+        worker.addEventListener('message', (e) => {
+          const { action, result } = e.data
+
+          if(action === 'jsonToTreeResult') {
+            $('#tree').html(result)
+            hideElements(name)
+          }
+        })
       }
       catch(err) {
         if(err instanceof SyntaxError)
@@ -27,8 +47,8 @@ jQuery(() => {
 })
 
 function hideElements(name) {
- $('#fileInput').hide()
- $('#name').css("display", "block")
- $('#name').text(name)
- $('#content').css("display", "block")
+  $('#fileInput').hide()
+  $('#name').css("display", "block")
+  $('#name').text(name)
+  $('#content').css("display", "block")
 }

@@ -42,3 +42,7 @@ html, body {
 .key {
   color: green;
 }
+
+ul, li {
+  list-style-type: none;
+}
