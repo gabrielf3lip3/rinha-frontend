@@ -18,13 +18,11 @@ jQuery(() => {
 
       try {
         const obj = JSON.parse(e.target.result)
-        const json = JSON.stringify(obj, null, 2)
-        const lines = json.split("\n")
       
         const worker = new Worker('./worker.js')
         worker.postMessage({
           action: 'jsonToTree',
-          data: lines
+          data: obj
         });
 
         worker.addEventListener('message', (e) => {
