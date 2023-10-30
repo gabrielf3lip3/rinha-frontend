@@ -29,11 +29,8 @@ function processObj(obj, tree) {
     }
 
     if(typeof value === 'object') {
-      // if(value == '[object Object]')
       tree += `<li><span class="key">${key}: </span></li><ul>`
-      // else {
-      //   tree += `<li><span class="key">${key}: </span><span class="value">[</span></li><ul>`
-      // }
+     
         
       tree = processObj(value, tree)
       return
